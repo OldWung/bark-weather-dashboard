@@ -4,6 +4,8 @@ import { Eye, EyeOff, KeyRound, LockKeyhole, Sunrise } from "lucide-react";
 import Dashboard from "./Dashboard";
 import { fetchEncryptedStatus } from "./crypto.mjs";
 import "./styles.css";
+import "./management-base.css";
+import "./management.css";
 
 function App() {
   const [unlocked, setUnlocked] = useState(false);

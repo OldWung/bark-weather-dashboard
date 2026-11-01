@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build",
-    "test": "node --test scripts/crypto.test.mjs"
+    "test": "node --test scripts/crypto.test.mjs scripts/management-client.test.mjs"
   },
   "dependencies": {
     "lucide-react": "1.31.0",
