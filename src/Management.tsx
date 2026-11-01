@@ -22,7 +22,7 @@ const maskedAddress = (value:unknown) => {
 function deliveryItems(result:Operation["result"]):{id:string;name:string;city:string;status:string}[] {
   const raw = result?.deliveries ?? result?.recipient_results ?? (result?.report as Record<string,unknown>|undefined)?.recipient_results;
   if (!Array.isArray(raw)) return [];
-  return raw.filter(value=>value&&typeof value==="object").map((value:Record<string,unknown>,index)=>({id:String(value.recipient_id??value.recipient??value.id??index),name:String(value.name??value.label??"接收人"),city:String(value.city??""),status:String(value.status??"unknown")}));
+  return raw.filter(value=>value&&typeof value==="object"&&(value as Record<string,unknown>).outcome!=="not_selected").map((value:Record<string,unknown>,index)=>({id:String(value.recipient_id??value.recipient??value.id??index),name:String(value.name??value.label??"接收人"),city:String(value.city??""),status:String(value.status??value.outcome??"unknown")}));
 }
 const statusName = (status:string) => ({accepted:"Bark 已接收",pending:"结果待确认",uncertain:"网络超时，结果未知",rejected:"Bark 未接受",weather_failed:"天气获取失败，未发送",skipped_quiet_hours_or_stale:"未发送：免打扰或天气已过期",quiet_hours:"未发送：免打扰时段",duplicate_suppressed:"相同操作已处理",disabled:"未发送：接收人已暂停"} as Record<string,string>)[status]??"请查看发送记录确认结果";
 
@@ -119,7 +119,6 @@ export default function Management({openMode,onClose,onChanged}:{openMode:Mode|n
   const reload=()=>void perform("read",signal=>client().recipients(signal));
   const resume=()=>{if(!pending||busy)return;const saved=pending;void perform(saved.kind,async()=>saved.id);};
   async function saveUsers(next:Record<string,unknown>[]){
-    if(next.length<1){setError("请至少保留一名接收人；如需停止推送，可以将接收人暂停。");return;}
     const requestId=idFor();
     await perform("save",signal=>client().save(next,revision,requestId,signal));
   }
