@@ -1,0 +1,16 @@
+/node_modules/
+/dist/
+.env*
+.dev.vars*
+*.pem
+*.key
+*password*
+!src/crypto.mjs
+!scripts/crypto.test.mjs
+*.tsbuildinfo
+.DS_Store
+*.log
+dashboard-snapshot.json
+status.json
+*-plain.json
+*plaintext*.json
