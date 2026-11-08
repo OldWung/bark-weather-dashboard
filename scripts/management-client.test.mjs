@@ -9,8 +9,8 @@ const requestId='d168f1c3-2434-458c-b06d-58ced5b4f2ae';
 test('management requests only use a clean HTTPS origin and the requested send window',()=>{
   assert.equal(managementOrigin(origin+'/'),origin);
   for(const value of ['http://admin.example.test','https://user:secret@admin.example.test','https://admin.example.test/path','https://admin.example.test/?token=secret','javascript:alert(1)'])assert.equal(managementOrigin(value),'');
-  assert.equal(insideSendWindow(new Date('2026-11-01T07:29:59+08:00')),false);
-  assert.equal(insideSendWindow(new Date('2026-11-01T07:30:00+08:00')),true);
+  assert.equal(insideSendWindow(new Date('2026-11-01T07:59:59+08:00')),false);
+  assert.equal(insideSendWindow(new Date('2026-11-01T08:00:00+08:00')),true);
   assert.equal(insideSendWindow(new Date('2026-11-01T21:59:59+08:00')),true);
   assert.equal(insideSendWindow(new Date('2026-11-01T22:00:00+08:00')),false);
 });

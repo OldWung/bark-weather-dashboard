@@ -13,9 +13,14 @@ export function managementOrigin(value) {
   } catch { return ""; }
 }
 
+const sendStartHour = 8;
+const sendEndHour = 22;
+const hourLabel = hour => String(hour).padStart(2, "0") + ":00";
+export const sendWindowLabel = `${hourLabel(sendStartHour)}–${hourLabel(sendEndHour)}`;
+
 export function insideSendWindow(now = new Date()) {
-  const minute = ((now.getUTCHours() + 8) % 24) * 60 + now.getUTCMinutes();
-  return minute >= 450 && minute < 1320;
+  const hour = (now.getUTCHours() + 8) % 24;
+  return hour >= sendStartHour && hour < sendEndHour;
 }
 
 const safeId = value => typeof value === "string" && /^[A-Za-z0-9_-]{16,80}$/.test(value);
